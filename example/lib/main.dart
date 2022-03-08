@@ -56,6 +56,7 @@ class _MailPageState extends State<MailPage> {
   final GlobalKey _three = GlobalKey();
   final GlobalKey _four = GlobalKey();
   final GlobalKey _five = GlobalKey();
+  final GlobalKey _six = GlobalKey();
   List<Mail> mails = [];
 
   @override
@@ -64,7 +65,7 @@ class _MailPageState extends State<MailPage> {
     //Start showcase view after current widget frames are drawn.
     WidgetsBinding.instance!.addPostFrameCallback(
       (_) => ShowCaseWidget.of(context)!
-          .startShowCase([_one, _two, _three, _four, _five]),
+          .startShowCase([_one, _two, _three, _five]),
     );
     mails = [
       Mail(
@@ -242,16 +243,34 @@ class _MailPageState extends State<MailPage> {
             ),
             const Padding(padding: EdgeInsets.only(top: 8)),
             Expanded(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return showcaseMailTile(context);
-                  }
-                  return MailTile(mails[index % mails.length]);
-                },
+              child: Showcase(
+                title: "This is an title",
+                description: "This is an desctiption.",
+                showcaseBackgroundColor: Colors.red,
+                key: _three,
+                child: GridView.count(
+                  childAspectRatio: 1,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 2.5, vertical: 2.5),
+                  crossAxisCount: MediaQuery.of(context).size.width > 700
+                      ? (MediaQuery.of(context).size.width * 0.006).round()
+                      : 3,
+                  mainAxisSpacing: 0.0,
+                  crossAxisSpacing: 0.0,
+                  children: <Widget>[
+                    ...List.generate(17, (index) => index).map(
+                      (index) {
+                        return Text("Index:$index");
+                      },
+                    ),
+                    const Visibility(
+                      visible: true,
+                      child: Text("New Rent."),
+                    ),
+                  ],
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -265,7 +284,7 @@ class _MailPageState extends State<MailPage> {
           onPressed: () {
             setState(() {
               ShowCaseWidget.of(context)!
-                  .startShowCase([_one, _two, _three, _four, _five]);
+                  .startShowCase([_one, _two, _three, _four, _five, _six]);
             });
           },
           child: const Icon(
@@ -289,7 +308,7 @@ class _MailPageState extends State<MailPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Showcase(
-          key: _three,
+          key: _six,
           description: 'Tap to check mail',
           disposeOnTap: true,
           onTargetClick: () {
