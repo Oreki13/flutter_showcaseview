@@ -32,6 +32,7 @@ class ShowCaseWidget extends StatefulWidget {
   final bool autoPlay;
   final Duration autoPlayDelay;
   final bool autoPlayLockEnable;
+  final bool disableBarrierInteraction;
 
   /// Default overlay blur used by showcase. if [Showcase.blurValue]
   /// is not provided.
@@ -39,16 +40,16 @@ class ShowCaseWidget extends StatefulWidget {
   /// Default value is 0.
   final double blurValue;
 
-  const ShowCaseWidget({
-    required this.builder,
-    this.onFinish,
-    this.onStart,
-    this.onComplete,
-    this.autoPlay = false,
-    this.autoPlayDelay = const Duration(milliseconds: 2000),
-    this.autoPlayLockEnable = false,
-    this.blurValue = 0,
-  });
+  const ShowCaseWidget(
+      {required this.builder,
+      this.onFinish,
+      this.onStart,
+      this.onComplete,
+      this.autoPlay = false,
+      this.autoPlayDelay = const Duration(milliseconds: 2000),
+      this.autoPlayLockEnable = false,
+      this.blurValue = 0,
+      this.disableBarrierInteraction = false});
 
   static GlobalKey? activeTargetWidget(BuildContext context) {
     return context
@@ -75,6 +76,7 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
   late bool autoPlay;
   late Duration autoPlayDelay;
   late bool autoPlayLockEnable;
+  late bool disableBarrierInteraction;
 
   /// Returns value of  [ShowCaseWidget.blurValue]
   double get blurValue => widget.blurValue;
@@ -85,6 +87,7 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
     autoPlayDelay = widget.autoPlayDelay;
     autoPlay = widget.autoPlay;
     autoPlayLockEnable = widget.autoPlayLockEnable;
+    disableBarrierInteraction = widget.disableBarrierInteraction;
   }
 
   void startShowCase(List<GlobalKey> widgetIds) {
