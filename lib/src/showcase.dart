@@ -1,3 +1,5 @@
+// ignore_for_file: use_key_in_widget_constructors, unused_element
+
 /*
  * Copyright (c) 2021 Simform Solutions
  *
@@ -34,6 +36,7 @@ import 'tooltip_widget.dart';
 
 class Showcase extends StatefulWidget {
   @override
+  // ignore: overridden_fields
   final GlobalKey key;
 
   final Widget child;
@@ -135,10 +138,10 @@ class Showcase extends StatefulWidget {
             "overlay opacity must be between 0 and 1.");
 
   @override
-  _ShowcaseState createState() => _ShowcaseState();
+  ShowcaseState createState() => ShowcaseState();
 }
 
-class _ShowcaseState extends State<Showcase> {
+class ShowcaseState extends State<Showcase> {
   bool _showShowCase = false;
   Timer? timer;
   GetPosition? position;
@@ -246,7 +249,7 @@ class _ShowcaseState extends State<Showcase> {
                 child: ClipPath(
                   clipper: RRectClipper(
                     area: rectBound,
-                    isCircle: widget.shapeBorder == CircleBorder(),
+                    isCircle: widget.shapeBorder == const CircleBorder(),
                     radius: widget.radius,
                     overlayPadding: widget.overlayPadding,
                   ),
@@ -299,7 +302,7 @@ class _ShowcaseState extends State<Showcase> {
               ),
             ],
           )
-        : SizedBox.shrink();
+        : const SizedBox.shrink();
   }
 }
 
@@ -311,7 +314,7 @@ class _TargetWidget extends StatelessWidget {
   final ShapeBorder? shapeBorder;
   final BorderRadius? radius;
 
-  _TargetWidget(
+  const _TargetWidget(
       {Key? key,
       required this.offset,
       this.size,
@@ -337,7 +340,7 @@ class _TargetWidget extends StatelessWidget {
               shape: radius != null
                   ? RoundedRectangleBorder(borderRadius: radius!)
                   : shapeBorder ??
-                      RoundedRectangleBorder(
+                      const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(8),
                         ),
