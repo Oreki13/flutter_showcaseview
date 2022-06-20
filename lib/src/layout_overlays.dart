@@ -45,7 +45,7 @@ class AnchoredOverlay extends StatelessWidget {
       overlayBuilder;
   final Widget? child;
 
-  AnchoredOverlay({
+  const AnchoredOverlay({
     Key? key,
     this.showOverlay = false,
     this.overlayBuilder,
@@ -71,7 +71,7 @@ class AnchoredOverlay extends StatelessWidget {
                     topLeft.dy.isNaN ||
                     bottomRight.dx.isNaN ||
                     bottomRight.dy.isNaN)
-                ? Rect.fromLTRB(0.0, 0.0, 0.0, 0.0)
+                ? const Rect.fromLTRB(0.0, 0.0, 0.0, 0.0)
                 : Rect.fromLTRB(
                     topLeft.dx,
                     topLeft.dy,
@@ -105,7 +105,7 @@ class OverlayBuilder extends StatefulWidget {
   final Widget Function(BuildContext)? overlayBuilder;
   final Widget? child;
 
-  OverlayBuilder({
+  const OverlayBuilder({
     Key? key,
     this.showOverlay = false,
     this.overlayBuilder,
@@ -113,10 +113,10 @@ class OverlayBuilder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _OverlayBuilderState createState() => _OverlayBuilderState();
+  OverlayBuilderState createState() => OverlayBuilderState();
 }
 
-class _OverlayBuilderState extends State<OverlayBuilder> {
+class OverlayBuilderState extends State<OverlayBuilder> {
   OverlayEntry? _overlayEntry;
 
   @override
@@ -124,22 +124,20 @@ class _OverlayBuilderState extends State<OverlayBuilder> {
     super.initState();
 
     if (widget.showOverlay) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) => showOverlay());
+      WidgetsBinding.instance.addPostFrameCallback((_) => showOverlay());
     }
   }
 
   @override
   void didUpdateWidget(OverlayBuilder oldWidget) {
     super.didUpdateWidget(oldWidget);
-    WidgetsBinding.instance!
-        .addPostFrameCallback((_) => syncWidgetAndOverlay());
+    WidgetsBinding.instance.addPostFrameCallback((_) => syncWidgetAndOverlay());
   }
 
   @override
   void reassemble() {
     super.reassemble();
-    WidgetsBinding.instance!
-        .addPostFrameCallback((_) => syncWidgetAndOverlay());
+    WidgetsBinding.instance.addPostFrameCallback((_) => syncWidgetAndOverlay());
   }
 
   @override
@@ -195,7 +193,7 @@ class _OverlayBuilderState extends State<OverlayBuilder> {
   }
 
   void buildOverlay() async {
-    WidgetsBinding.instance!
+    WidgetsBinding.instance
         .addPostFrameCallback((_) => _overlayEntry?.markNeedsBuild());
   }
 

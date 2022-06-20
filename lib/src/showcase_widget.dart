@@ -41,7 +41,8 @@ class ShowCaseWidget extends StatefulWidget {
   final double blurValue;
 
   const ShowCaseWidget(
-      {required this.builder,
+      {Key? key,
+      required this.builder,
       this.onFinish,
       this.onStart,
       this.onComplete,
@@ -49,7 +50,8 @@ class ShowCaseWidget extends StatefulWidget {
       this.autoPlayDelay = const Duration(milliseconds: 2000),
       this.autoPlayLockEnable = false,
       this.blurValue = 0,
-      this.disableBarrierInteraction = false});
+      this.disableBarrierInteraction = false})
+      : super(key: key);
 
   static GlobalKey? activeTargetWidget(BuildContext context) {
     return context
@@ -174,8 +176,8 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
   @override
   Widget build(BuildContext context) {
     return _InheritedShowCaseView(
-      child: widget.builder,
       activeWidgetIds: ids?.elementAt(activeWidgetId!),
+      child: widget.builder,
     );
   }
 }
@@ -183,7 +185,7 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
 class _InheritedShowCaseView extends InheritedWidget {
   final GlobalKey? activeWidgetIds;
 
-  _InheritedShowCaseView({
+  const _InheritedShowCaseView({
     required this.activeWidgetIds,
     required Widget child,
   }) : super(child: child);
