@@ -33,16 +33,18 @@ class ShowCaseWidget extends StatefulWidget {
   final Duration autoPlayDelay;
   final bool autoPlayLockEnable;
   final bool disableBarrierInteraction;
+  final bool disableAnimation;
+  final Duration scrollDuration;
 
   /// Default overlay blur used by showcase. if [Showcase.blurValue]
   /// is not provided.
   ///
   /// Default value is 0.
   final double blurValue;
+  final bool enableAutoScroll;
 
   const ShowCaseWidget(
-      {Key? key,
-      required this.builder,
+      {required this.builder,
       this.onFinish,
       this.onStart,
       this.onComplete,
@@ -50,8 +52,10 @@ class ShowCaseWidget extends StatefulWidget {
       this.autoPlayDelay = const Duration(milliseconds: 2000),
       this.autoPlayLockEnable = false,
       this.blurValue = 0,
-      this.disableBarrierInteraction = false})
-      : super(key: key);
+      this.scrollDuration = const Duration(milliseconds: 300),
+      this.disableAnimation = false,
+      this.enableAutoScroll = false,
+      this.disableBarrierInteraction = false});
 
   static GlobalKey? activeTargetWidget(BuildContext context) {
     return context
@@ -59,10 +63,10 @@ class ShowCaseWidget extends StatefulWidget {
         ?.activeWidgetIds;
   }
 
-  static ShowCaseWidgetState? of(BuildContext context) {
+  static ShowCaseWidgetState of(BuildContext context) {
     final state = context.findAncestorStateOfType<ShowCaseWidgetState>();
     if (state != null) {
-      return context.findAncestorStateOfType<ShowCaseWidgetState>();
+      return state;
     } else {
       throw Exception('Please provide ShowCaseView context');
     }
@@ -76,9 +80,11 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
   List<GlobalKey>? ids;
   int? activeWidgetId;
   late bool autoPlay;
+  late bool disableAnimation;
   late Duration autoPlayDelay;
   late bool autoPlayLockEnable;
   late bool disableBarrierInteraction;
+  late bool enableAutoScroll;
 
   /// Returns value of  [ShowCaseWidget.blurValue]
   double get blurValue => widget.blurValue;
@@ -88,8 +94,10 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
     super.initState();
     autoPlayDelay = widget.autoPlayDelay;
     autoPlay = widget.autoPlay;
+    disableAnimation = widget.disableAnimation;
     autoPlayLockEnable = widget.autoPlayLockEnable;
     disableBarrierInteraction = widget.disableBarrierInteraction;
+    enableAutoScroll = widget.enableAutoScroll;
   }
 
   void startShowCase(List<GlobalKey> widgetIds) {
